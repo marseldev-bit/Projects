@@ -117,7 +117,7 @@ while True:
 
     if symbol == '':
         temp = 'u'
-        headTop = 360
+        headTop = 300
         headLeft = 480
     else: 
         temp = symbol
@@ -140,23 +140,22 @@ while True:
         body.add(Body(screen))
         berry.isBerry = False
     
-    currentTop = 0
-    currentLeft = 0
-    countSprite = 0
-    for sprite in body:
-        if head.headRect.left == sprite.bodyRect.left and head.headRect.top == sprite.bodyRect.top: sys.exit()
-        top = currentTop
-        left = currentLeft
-        currentTop = sprite.bodyRect.top
-        currentLeft = sprite.bodyRect.left
+    if symbol:
+        currentTop = 0
+        currentLeft = 0
+        countSprite = 0
+        for sprite in body:
+            if head.headRect.left == sprite.bodyRect.left and head.headRect.top == sprite.bodyRect.top: sys.exit()
+            top = currentTop
+            left = currentLeft
+            currentTop = sprite.bodyRect.top
+            currentLeft = sprite.bodyRect.left
 
-        if countSprite == 0:
-            moveBody(sprite.bodyRect, headTop, headLeft)
-        else:
-            moveBody(sprite.bodyRect, top, left)
-        countSprite += 1
+            if countSprite == 0:
+                moveBody(sprite.bodyRect, headTop, headLeft)
+            else:
+                moveBody(sprite.bodyRect, top, left)
+            countSprite += 1
 
     show(screen, map, mapRect, head, body, berry, berry.isBerry)
-    time.tick(3)
-            
-        
+    time.tick(5)  
