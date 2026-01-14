@@ -22,6 +22,9 @@ class Ship:
         # Флаг перемещения
         self.moving_right = False
         self.moving_left = False
+    
+    def center_ship(self):
+        self.rect.midbottom = self.screenRect.midbottom
 
     def update(self):
         if self.moving_right and self.rect.right < self.screenRect.right: self.x += self.set.shipSpeed
