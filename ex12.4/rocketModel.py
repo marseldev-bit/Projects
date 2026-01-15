@@ -4,6 +4,7 @@ class Rocket:
     def __init__(self, game):
         pygame.init()
         self.model = pygame.image.load("C:\\Users\\marse\\OneDrive\\Рабочий стол\\Projects\\SpaceWar\\images\\ship.bmp")
+        self.model = pygame.transform.rotate(self.model, 270)
         self.rect = self.model.get_rect()
         self.screenRect = game.screen.get_rect()
         self.speed = 3

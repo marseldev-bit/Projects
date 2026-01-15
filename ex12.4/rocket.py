@@ -1,6 +1,7 @@
 import pygame
 from rocketModel import Rocket
 from bullets import Bullet
+from enemy import Enemy
 import sys
 
 class RocketGame:
@@ -12,23 +13,32 @@ class RocketGame:
         self.bg = (42, 50, 75)
         self.clock = pygame.time.Clock()
 
+        self.enemy = Enemy(self)
         self.model = Rocket(self)
         self.bullets = pygame.sprite.Group()
-        self.maxBullets = 5
+        self.maxBullets = 2
 
         self.moveRight = False
         self.moveLeft = False
         self.moveUp = False
         self.moveDown = False
+        self.isEnemy = True
 
     def runGame(self):
         while True:
             self.check_event()
             self.updateBullet()
+            self.enemy.run()
             self.model.moveRocket()
-            self.updateScreen()
+            if not self.checkHit(): self.isEnemy = False
+            self.updateScreen(self.isEnemy)
             self.clock.tick(60)
 
+    def checkHit(self):
+        for bullet in self.bullets:
+            if pygame.sprite.collide_rect(bullet, self.enemy):
+                return False 
+        return True
 
     def check_event(self):
         for event in pygame.event.get():
@@ -52,8 +62,9 @@ class RocketGame:
             newBullet = Bullet(self)
             self.bullets.add(newBullet)
         
-    def updateScreen(self):
+    def updateScreen(self, isEnemy):
         self.screen.fill(self.bg)
+        if isEnemy: self.enemy.showEnemy()
         for bullet in self.bullets:
             bullet.drawBullet()
         self.model.showModel()
