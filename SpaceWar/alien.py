@@ -12,6 +12,7 @@ class Alien(Sprite):
         self.rect = self.image.get_rect()
         self.x = 40
         self.y = 50
+        self.isShooter = False
 
         self.rect.left = self.x
         self.rect.top =  self.y
@@ -19,7 +20,6 @@ class Alien(Sprite):
     def check_edges(self):
         return (self.rect.left <= 0) or (self.rect.right >= self.screenRect.right)
     
-
     def update(self):
         self.rect.x += (self.set.alien_speed * self.set.fleet_direction)
 
