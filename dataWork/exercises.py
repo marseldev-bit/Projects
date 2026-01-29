@@ -1,146 +1,160 @@
 import matplotlib.pyplot as plt
-from random import choice
-from random import randint
+import csv
+from pathlib import Path
+from datetime import datetime
+import json
 import plotly.express as px
 
-# 15. Генерирование данных
+# 16. Загрузка данных
 
-# 15.1, 15.3
-# xValues = range(0, 5001)
-# yValues = [x**3 for x in xValues]
+#16.1
+# pathSitka = Path('C:\\Users\\marse\\OneDrive\\Рабочий стол\\Projects\\dataWork\\weatherData\\sitka_weather_2021_full.csv')
+# pathDeathValley = Path('C:\\Users\\marse\OneDrive\\Рабочий стол\\Projects\\dataWork\\weatherData\\death_valley_2021_full.csv')
+
+# lines = pathSitka.read_text().splitlines()
+# sitkaReader = csv.reader(lines)
+# lines = pathDeathValley.read_text().splitlines()
+# DVReader = csv.reader(lines)
+
+# next(sitkaReader)
+# next(DVReader)
+
+# print(DVReader)
+
+# sitkaPRCP, DVPRCP, dates = [], [], []
+
+# for s in sitkaReader: 
+#     sitkaPRCP.append(float(s[5]))
+#     dates.append(datetime.strptime(s[2], '%Y-%m-%d'))
+# for dv in DVReader: DVPRCP.append(float(dv[3]))
 
 # fig, ax = plt.subplots()
-# plt.scatter(xValues, yValues, s = 10, c=xValues, cmap = plt.cm.Blues)
+# ax.plot(dates, sitkaPRCP, color='purple')
+# ax.plot(dates, DVPRCP, color='orange')
+# ax.fill_between(dates, sitkaPRCP, DVPRCP, color="purple", alpha=0.3)
+
+# ax.set_title("Уровень осадком в Ситке и Долине смерти (Калифорния)\n2021", fontsize=16)
+# plt.show()
+
+# 16.2
+# path = Path('C:\\Users\\marse\\OneDrive\\Рабочий стол\\Projects\\dataWork\\weatherData\\death_valley_2021_simple.csv')
+# lines = path.read_text().splitlines()
+
+# reader = csv.reader(lines)
+# headerRow = next(reader)
+
+# dates, highs, lows = [], [], []
+# for row in reader:
+#     currentDate = datetime.strptime(row[2], '%Y-%m-%d')
+#     try:
+#         highs.append(int(row[3]))
+#         lows.append(int(row[4]))
+#     except: 
+#         print(f"Missing data for {currentDate}")
+#     else: dates.append(currentDate)
+
+# fig, ax = plt.subplots()
+# ax.plot(dates, highs, color='red', alpha=0.5)
+# ax.plot(dates, lows, color='blue', alpha=0.5)
+# ax.fill_between(dates, highs, lows, facecolor='blue', alpha=0.1)
+# plt.ylim(20, 160)
+
+# ax.set_title("Daily high and low temperatures, 2021\nDeath Valley, CA", fontsize=16)
+# ax.set_ylabel("Temperature (F)")
+# fig.autofmt_xdate()
 
 # plt.show()
 
-# 15.3, 15.4, 15.5
-class RandomWalk:
-    def __init__(self, numPoints=5000):
-        self.numPoints = numPoints
-        self.x = [0]
-        self.y = [0]
+# 16.4
+# pathSitka = Path('C:\\Users\\marse\\OneDrive\\Рабочий стол\\Projects\\dataWork\\weatherData\\sitka_weather_2021_full.csv')
+# pathDeathValley = Path('C:\\Users\\marse\OneDrive\\Рабочий стол\\Projects\\dataWork\\weatherData\\death_valley_2021_full.csv')
 
-    def fillWalk(self):
-        while len(self.x) < self.numPoints:
-            xStep = self.getStep()
-            yStep = self.getStep()
+# lines = pathSitka.read_text().splitlines()
+# sitkaReader = csv.reader(lines)
+# lines = pathDeathValley.read_text().splitlines()
+# DVReader = csv.reader(lines)
 
-            if xStep == 0 and yStep == 0: continue
+# sitkaHead = next(sitkaReader)
+# DVHead = next(DVReader)
 
-            self.x.append(self.x[-1] + xStep)
-            self.y.append(self.y[-1] + yStep)
+# sitkaIndex, DVIndex = 0, 0
+# for index, name in enumerate(sitkaHead): 
+#     if name == 'PRCP':
+#         sitkaIndex = index
+#         break 
+# for index, name in enumerate(DVHead): 
+#     if name == 'PRCP':
+#         DVIndex = index
+#         break 
 
-    def getStep(self):
-        dir = choice([1, -1])
-        dist = choice([0, 1, 2, 3, 4])
-        return dir * dist
+# print(DVReader)
 
+# sitkaPRCP, DVPRCP, dates = [], [], []
 
-# while True:
-#     rw = RandomWalk()
-#     rw.fillWalk()
+# for s in sitkaReader: 
+#     sitkaPRCP.append(float(s[sitkaIndex]))
+#     dates.append(datetime.strptime(s[2], '%Y-%m-%d'))
+# for dv in DVReader: DVPRCP.append(float(dv[DVIndex]))
 
-#     plt.style.use('classic')
-#     fig, ax = plt.subplots(figsize=(15,6))
-#     num = range(rw.numPoints)
-#     ax.plot(rw.x, rw.y, linewidth=4, c='blue')
-#     ax.set_aspect('equal') 
-#     ax.scatter(0, 0, c='green', edgecolors='none', s=100)
-#     ax.scatter(rw.x[-1], rw.y[-1], c='red', edgecolors='none', s=100)
+# fig, ax = plt.subplots()
+# ax.plot(dates, sitkaPRCP, color='purple')
+# ax.plot(dates, DVPRCP, color='orange')
+# ax.fill_between(dates, sitkaPRCP, DVPRCP, color="purple", alpha=0.3)
 
-#     ax.get_xaxis().set_visible(False)
-#     ax.get_yaxis().set_visible(False)
-#     plt.show()
+# ax.set_title("Уровень осадком в Ситке и Долине смерти (Калифорния)\n2021", fontsize=16)
+# plt.show()
 
-#     keepRunning = input("Do you want to see another random walk? (y/n): ")
-#     if keepRunning == 'n': break
+# 16.6 Выполнен в файле geoJson.py
 
-# 15.6
-class Die: # Игральный кубик
-    def __init__(self, sides = 6):
-        self.sides = sides
-    
-    def roll(self):
-        return(randint(1, self.sides))
-    
+# 16.7
+# path = Path('C:\\Users\\marse\\OneDrive\\Рабочий стол\\Projects\\dataWork\\eqData\\eq_data_1_day_m1.geojson')
+# eqData = json.loads(path.read_text())
 
-# die1 = Die(sides=8)
-# die2 = Die(sides=8)
+# path = Path('C:\\Users\\marse\\OneDrive\\Рабочий стол\\Projects\\dataWork\\eqData\\readable_eq_data.geojson')
+# path.write_text(json.dumps(eqData, indent=4))
 
-# res = []
-# for roll in range(1000):
-#     res.append(die1.roll() + die2.roll())
+# eqDicts = eqData['features']
 
-# chances = []
-# maxRes = die1.sides + die2.sides
-# possibleResults = range(2, maxRes+1)
-# for r in possibleResults:
-#     chances.append(res.count(r))
+# mags, lons, lats, eqTitles = [], [], [], []
+# for key in eqDicts:
+#     mags.append(key['properties']['mag'])
+#     lons.append(key['geometry']['coordinates'][0])
+#     lats.append(key['geometry']['coordinates'][1])
+#     eqTitles.append(key['properties']['title'])
 
-# title = "Результат подкидывания двух восьмигранных кубиков 1000 раз"
-# labels = {'x': 'Result', 'y':'Frequency of Result'}
-# fig = px.bar(x=possibleResults, y=chances, title=title, labels=labels)
-
-# fig.update_layout(xaxis_dtick=1)
-
+# title = eqData['metadata']
+# fig = px.scatter_geo(lat=lats, lon=lons, size=mags, title=title['title'],
+#                      color=mags,
+#                      color_continuous_scale='plasma',
+#                      labels={'color': 'Magnitude'},
+#                      projection='natural earth',
+#                      hover_name=eqTitles,
+# )
 # fig.show()
 
-#15.7
-# die1 = Die()
-# die2 = Die()
-# die3 = Die()
-# res = []
-# for i in range(1001):
-#     res.append(die1.roll() + die2.roll() + die3.roll())
+# 16.9
+path = Path('C:\\Users\\marse\\OneDrive\\Рабочий стол\\Projects\\dataWork\\eqData\\world_fires_1_day.csv')
+lines = path.read_text().splitlines()
 
-# possibleResults = range(3, die1.sides + die2.sides + die3.sides+1)
-# chances = []
-# for ps in possibleResults:
-#     chances.append(res.count(ps))
+reader = csv.reader(lines)
 
-# fig = px.bar(x=possibleResults, y=chances)
-# fig.show()
+header = next(reader)
+latsIndex, lonsIndex = 0, 0 
+for index, name in enumerate(header):
+    if name == 'latitude': latsIndex = index
+for index, name in enumerate(header):
+    if name == 'longitude': lonsIndex = index
 
-# 15.8 
-# die1 = Die(sides=8)
-# die2 = Die(sides=8)
+lats, lons, brights = [], [], []
+for r in reader:
+    lats.append(float(r[latsIndex]))
+    lons.append(float(r[lonsIndex]))
+    brights.append(float(r[2]))
 
-# res = []
-# for roll in range(1000):
-#     res.append(die1.roll() * die2.roll())
-
-# chances = []
-# maxRes = die1.sides * die2.sides
-# possibleResults = range(2, maxRes+1)
-# for r in possibleResults:
-#     chances.append(res.count(r))
-
-# title = "Результат подкидывания двух восьмигранных кубиков 1000 раз"
-# labels = {'x': 'Result', 'y':'Frequency of Result'}
-# fig = px.bar(x=possibleResults, y=chances, title=title, labels=labels)
-
-# fig.update_layout(xaxis_dtick=1)
-
-# fig.show()
-
-# 15.10
-# rw = RandomWalk()
-# rw.fillWalk()
-# fig = px.line(rw.x, rw.y)
-# fig.show()
-
-die1 = Die()
-die2 = Die(8)
-
-res = []
-for i in range(1001): res.append(die1.roll() + die2.roll())
-possRes = range(2, die1.sides + die2.sides + 1)
-chances = []
-for p in possRes:
-    chances.append(res.count(p))
-
-fig, ax = plt.subplots()
-ax.bar(possRes, chances, width=1, edgecolor='white')
-
-plt.show()
+fig = px.scatter_geo(lat=lats, lon=lons, size=brights, title='Пожары',
+                     color=brights,
+                     color_continuous_scale='hot',
+                     labels={'color': 'Magnitude'},
+                     projection='natural earth',
+)
+fig.show()
